@@ -1,58 +1,56 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { googleAuth } from "../helpers/googleAuth";
+import { emailAuth } from "../helpers/emailAuth"; // !! Make sure to import your functions
 import "./Login.css";
 
 export const Register = (props) => {
-  const [customer, setCustomer] = useState({
+  const [user, setUser] = useState({
     email: "",
     fullName: "",
-    staff: false,
+    password: "",
   });
   let navigate = useNavigate();
 
-  const registerNewUser = () => {
-    return fetch("http://localhost:8088/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(customer),
-    })
-      .then((res) => res.json())
-      .then((createdUser) => {
-        if (createdUser.hasOwnProperty("id")) {
-          localStorage.setItem(
-            "project_user",
-            JSON.stringify({
-              id: createdUser.id,
-              staff: createdUser.staff,
-            })
-          );
+  // const registerNewUser = () => {
+  //   return fetch("http://localhost:8088/users", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(customer),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((createdUser) => {
+  //       if (createdUser.hasOwnProperty("id")) {
+  //         localStorage.setItem(
+  //           "project_user",
+  //           JSON.stringify({
+  //             id: createdUser.id,
+  //             staff: createdUser.staff,
+  //           })
+  //         );
 
-          navigate("/");
-        }
-      });
-  };
+  //         navigate("/");
+  //       }
+  //     });
+  // };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    return fetch(`http://localhost:8088/users?email=${customer.email}`)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.length > 0) {
-          // Duplicate email. No good.
-          window.alert("Account with that email address already exists");
-        } else {
-          // Good email, create user.
-          registerNewUser();
-        }
-      });
+    emailAuth.register(user);
+    await navigate("/");
   };
 
-  const updateCustomer = (evt) => {
-    const copy = { ...customer };
+  const updateUser = (evt) => {
+    const copy = { ...user };
     copy[evt.target.id] = evt.target.value;
-    setCustomer(copy);
+    setUser(copy);
+  };
+
+  const onSubmitLogin = async () => {
+    googleAuth.signInRegister();
+    await navigate("/");
   };
 
   return (
@@ -62,7 +60,7 @@ export const Register = (props) => {
         <fieldset>
           <label htmlFor="fullName"> Full Name </label>
           <input
-            onChange={updateCustomer}
+            onChange={updateUser}
             type="text"
             id="fullName"
             className="form-control"
@@ -74,7 +72,7 @@ export const Register = (props) => {
         <fieldset>
           <label htmlFor="email"> Email address </label>
           <input
-            onChange={updateCustomer}
+            onChange={updateUser}
             type="email"
             id="email"
             className="form-control"
@@ -83,9 +81,25 @@ export const Register = (props) => {
           />
         </fieldset>
         <fieldset>
+          <label htmlFor="password"> Password </label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="password"
+            className="form-control"
+            placeholder="Must Be 6 Characters"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
           <button type="submit"> Register </button>
         </fieldset>
       </form>
+      <h2>Register With Google?</h2>
+      <button type="submit" onClick={onSubmitLogin}>
+        Let's Do It!
+      </button>
     </main>
   );
 };
