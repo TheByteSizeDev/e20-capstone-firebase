@@ -1,4 +1,3 @@
-import { emailAuth } from "../helpers/emailAuth";
 import { photoStorage } from "../helpers/photoStorage";
 import { useState } from "react";
 
