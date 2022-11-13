@@ -19,14 +19,13 @@ export const Login = () => {
     setLogin(copy);
   };
 
-  const onSubmitLoginEmail = async () => {
-    emailAuth.signIn(login);
-    await navigate("/");
+  const onSubmitLoginEmail = async (e) => {
+    e.preventDefault();
+    emailAuth.signIn(login, navigate);
   };
 
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister();
-    await navigate("/");
+    googleAuth.signInRegister(navigate);
   };
 
   return (
@@ -40,8 +39,8 @@ export const Login = () => {
             <input
               type="email"
               value={login.email}
-              id="fullName"
-              onChange={(evt) => updateLogin(evt.target.value)}
+              id="email"
+              onChange={(evt) => updateLogin(evt)}
               className="form-control"
               placeholder="Email address"
               required
@@ -54,7 +53,7 @@ export const Login = () => {
               type="password"
               value={login.password}
               id="password"
-              onChange={(evt) => updateLogin(evt.target.value)}
+              onChange={(evt) => updateLogin(evt)}
               className="form-control"
               placeholder="password"
               required

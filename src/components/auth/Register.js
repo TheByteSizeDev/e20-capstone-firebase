@@ -12,34 +12,9 @@ export const Register = (props) => {
   });
   let navigate = useNavigate();
 
-  // const registerNewUser = () => {
-  //   return fetch("http://localhost:8088/users", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(customer),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((createdUser) => {
-  //       if (createdUser.hasOwnProperty("id")) {
-  //         localStorage.setItem(
-  //           "project_user",
-  //           JSON.stringify({
-  //             id: createdUser.id,
-  //             staff: createdUser.staff,
-  //           })
-  //         );
-
-  //         navigate("/");
-  //       }
-  //     });
-  // };
-
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user);
-    await navigate("/");
+    emailAuth.register(user, navigate);
   };
 
   const updateUser = (evt) => {
@@ -49,8 +24,7 @@ export const Register = (props) => {
   };
 
   const onSubmitLogin = async () => {
-    googleAuth.signInRegister();
-    await navigate("/");
+    googleAuth.signInRegister(navigate);
   };
 
   return (

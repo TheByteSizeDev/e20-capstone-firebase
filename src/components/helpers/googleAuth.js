@@ -17,7 +17,7 @@ import {
 
 export const googleAuth = {
   // Works to sign in AND register a user
-  signInRegister: function() {
+  signInRegister: function(navigate) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -27,8 +27,10 @@ export const googleAuth = {
             email: userCredential.user.email,
             displayName: userCredential.user.displayName,
             uid: userCredential.user.uid,
+            type: "google",
           };
           localStorage.setItem("project_user", JSON.stringify(userAuth));
+          navigate("/");
           console.log("you did it");
         })
         .catch((error) => {
@@ -40,10 +42,12 @@ export const googleAuth = {
     });
   },
   // Sign out a user
-  signOut: function() {
+  signOut: function(navigate) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("project_user");
+        navigate("/");
         console.log("Sign Out Success!");
       })
       .catch((error) => {
