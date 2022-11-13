@@ -1,11 +1,10 @@
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import { useNavigate } from "react-router-dom";
+import { PhotoUpload } from "../photoStorage/PhotoUpload";
 
 export const ApplicationViews = () => {
   let navigate = useNavigate();
-  // const localProjectUser = localStorage.getItem("project_user");
-  // const projectUserObject = JSON.parse(localProjectUser);
 
   const onLogout = () => {
     const userRecord = JSON.parse(localStorage.getItem("project_user"));
@@ -22,6 +21,7 @@ export const ApplicationViews = () => {
       <button type="submit" onClick={onLogout}>
         Logout
       </button>
+      <PhotoUpload />
     </>
   );
 };
