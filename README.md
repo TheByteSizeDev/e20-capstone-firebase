@@ -5,22 +5,65 @@ You can use this code to quickly and easily use Firebase v9.0.0
 It supports these product:
 
 - Firebase Authentication with Email/Password + Google Auth
-- Firebase Realtime Database
 - Firebase Storage
 
-You can either use this as the base for your application and take out the views folder OR cherry pick the files you need.
+You can either use this as the base for your application base OR cherry pick the files you need.
 
-## Initialize Firebase
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-First add firebase to your app: https://firebase.google.com/docs/web/setup
+## If You Use This As Your Application Base
 
-Start by installing using `npm install firebase`
+### Step 1: Clone This Template
 
-Rename `fakeApiKeys.js` to `apikeys.js` and replace with your Firebase configs
+* Click the "use this template" button in the upper right hand corner of this repo and select "create a new repository". (note: the repo pictured is a different repo but it works the same). 
 
-In your `index.js` file make sure that firebase is imported and the app is initialized with `firebase.initializeApp(firebaseConfig);`
+![Screen Shot 2022-11-14 at 7 55 27 AM](https://user-images.githubusercontent.com/43580474/201677821-fca0834d-2cf9-4465-9488-d6ab755f0ffa.png)
 
-## Using It For Google Authentication
+* Select yourself from the "Owner" drop down list and name your repo after your app. Important! Make sure it's set to public"
+
+![Screen Shot 2022-11-14 at 7 57 16 AM](https://user-images.githubusercontent.com/43580474/201678218-8b8b85a8-4e09-4b89-bff0-c01c0aa604d9.png)
+
+* Now you should have a copy of this as a github repo in your github! All you have to do is copy the ssh from the green "<> CODE" button in the upper right hand corner and clone it locally.
+
+### Step 2: Change things to your app's name
+
+* In your `package.json` file change the "name" property on line 2 to your app's name
+* Rename the `CapstoneTemplate.js` file to your app's name. Do the same with the name of the component
+
+### Step 3: Run `npm i`
+
+* Run `nmp i` in your app's root directory
+
+## Step 4: Create a Firebase Account & Initialize Products
+
+* Go to https://firebase.google.com/ and creat an account. It's free!
+* Add a new project for your app IMPORTANT! DISABLE google analytics (it will ask you when it asks for your app name)
+* It will ask you to enable Firebase. 
+
+![Screen Shot 2022-11-14 at 8 19 28 AM](https://user-images.githubusercontent.com/43580474/201683328-4479c1ed-5864-4060-8bbb-857bc273fcf2.png)
+
+* Make sure you pick the "web" button. Give your app a nickname and click next. In step 2 make sure it copy the firebase Config object it shows you. Copy it into your `fakeApiKeys.js` file.
+* Rename `fakeApiKeys.js` to `apikeys.js`
+* Next it will ask you to "Choose Products You Want To Add To You App". IF USING AUTHENTICATION Choose Authentication click the "get started" button and enable email/password.
+* After that is done click the "enable a new provider" and choose google.
+* IF USING PHOTO STORAGE: Go into the side menu under "build" and choose storage.
+
+![Screen Shot 2022-11-14 at 8 27 00 AM](https://user-images.githubusercontent.com/43580474/201684975-f62755a7-371a-4b48-a591-e4c1356bbce0.png)
+
+* click the "Get Started" button
+* When prompted make sure you select to use Production Mode.
+* Click next when it asks you which region you want (stick with the default).
+* Go into the "Rules" tab and change them to match what is below. Click the "publish" button.
+
+![Screen Shot 2022-11-14 at 8 29 39 AM](https://user-images.githubusercontent.com/43580474/201685827-48a6b36b-a11a-4c7e-babd-9e4b5d1ac3fd.png)
+
+**YOU ARE ALL SET!**
+
+## If You Cherry Pick (Not Advised)
+
+This is assuming that you only want to use the methods and you are building your own structure to use them. Slightly harder and more advanced so not totally advised.
+
+### Using It For Google Authentication
 
 If using only google auth keep the `googleAuth.js` file
 
@@ -28,14 +71,16 @@ Initialize Firebase Authentication in your firebase account. Enable google as a 
 
 -- Methods --
 
-googleAuth.signIn()
+`googleAuth.signInRegister()`
 
-- params: no paramaters
+- params: 
+  -  Navigate --> A way to pass in `userNavigate` function and route to a new view
 - note: opens google sign in popup
 
-googleAuth.signOut()
+`googleAuth.signOut()`
 
-- params: no paramaters
+- params: 
+  -  Navigate --> A way to pass in `userNavigate` function and route to a new view
 - note: could be used for either signout methods
 
 ## Using It For Email/Password
@@ -46,22 +91,41 @@ Initialize Firebase Authentication in your firebase account. Enable email/passwo
 
 -- Methods --
 
-emailAuth.register()
+`emailAuth.register()`
 
 - params:
-  - userObject --> {name: , password: , displayName: }
-- note: If not using Firebase Realtime Database make sure to take out the API call on `line 36` and replace it with your own
+  - userObj --> {fullName: , password: , email: }
+  - Navigate --> A way to pass in `userNavigate` function and route to a new view
 
-emailAuth.signIn()
+`emailAuth.signIn()`
 
 - params:
-  - userObject --> full object{name: , password: , displayName: }
+  - userObj --> full object{email: , password: }
+  - Navigate --> A way to pass in `userNavigate` function and route to a new view
 
-emailAuth.signOut()
+`emailAuth.signOut()`
 
-- params: none
+- params:
+  -  Navigate --> A way to pass in `userNavigate` function and route to a new view
 
-## Using It For File Storage
+
+## Using It For Email/Password AND Google Sign In
+
+If using email/password and google auth keep everything in the `helpers/` folder except `photoStorage.js`.
+
+Initialize Firebase Authentication in your firebase account. Enable email/password as a sign-in method as well as Google.
+
+-- Methods --
+
+The only new file you would use is `logout.js`. That handles logging out for both google and email.
+
+`logout.lougout()`
+
+- params:
+  -  Navigate --> A way to pass in `userNavigate` function and route to a new view
+-  Note: Looks at which type of login the user used and then picks the appropriate sign out.
+
+### Using It For File Storage
 
 If using only file storage keep the `photoStorage.js` file
 
@@ -69,55 +133,12 @@ Initialize Firebase Storage in your firebase account.
 
 -- Methods --
 
-photoStorage.upload()
+`photoStorage.upload()`
 
 - params:
-  - bucket ---> name of folder
-  - file ---> file to be uploaded
+  - bucket ---> name of folder in your firebase storage where your photo is going. Default is "images".
+  - file ---> file object to be uploaded
 - note: Make sure that you are saving the return URL to an object in your database (ex: a user if its a user profile)
-
-## Using It For Firebase Realtime Database
-
-If using only Firebase Realtime Database keep the `api/dataAccess.js` file
-
-Initialize Firebase Realtime Database in your firebase account.
-
--- Methods --
-
-api.getRequest()
-
-- params:
-  - resource ---> name of table EX: users, pets, etc
-
-api.getWithParameterRequest()
-
-- params:
-  - resource
-  - param ---> What property you are searching by EX: pet_name, book_author
-  - value ---> the value of that property EX: Nebula, J.K. Rowling
-
-api.postRequest()
-
-- params:
-  - resource
-  - info ---> the object that needs to be added to the database
-
-api.putRequest()
-
-- param:
-  - resource
-  - dataId ---> the ID of the object
-  - info
-
-api.deleteRequest()
-
-- param:
-  - resource
-  - dataId
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -131,11 +152,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -145,43 +161,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
