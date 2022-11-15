@@ -6,16 +6,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-// Notes!
-// emailAuth.register() -- 1 param -- (full userObject)
-// emailAuth.signIn() -- 1 param -- (full userObject)
-// emailAuth.signOut() -- 0 param
-
 // userObject expected ---->
 // {
 //   email: "",
 //   password: "",
-//   displayName: "",
+//   fullName: "",
 // }
 
 export const emailAuth = {
@@ -24,7 +19,6 @@ export const emailAuth = {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then((userCredential) => {
-        // change this if you want different user information
         const auth = getAuth();
         updateProfile(auth.currentUser, {
           displayName: userObj.fullName,
@@ -36,7 +30,9 @@ export const emailAuth = {
               uid: userCredential.user.uid,
               type: "email",
             };
+            // Saves the user to localstorage
             localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+            // Navigate us back to home
             navigate("/");
           },
           function(error) {
@@ -64,7 +60,9 @@ export const emailAuth = {
             uid: userCredential.user.uid,
             type: "email",
           };
+          // Saves the user to localstorage
           localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+          // Navigate us back to home
           navigate("/");
         })
         .catch((error) => {
@@ -79,7 +77,9 @@ export const emailAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
+        // Remove the user from localstorage
         localStorage.removeItem("capstone_user");
+        // Navigate us back to home
         navigate("/");
         console.log("Sign Out Success!");
       })

@@ -3,7 +3,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // NOTES!
 // photoStorage.upload() --- 2 params ---> (bucket, file)
 
-// bucket --> the name of the folder in firebase  where
+// bucket --> the name of the folder in firebase where
 // your file should go.
 // EX: "profile_images", "pet_photos"
 
@@ -11,7 +11,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const photoStorage = {
   // Upload a photo or file to your firebase storage
-  upload: function (bucket, file) {
+  upload: function(bucket, file) {
     return new Promise((res) => {
       const storage = getStorage();
       const storageRef = ref(storage, `${bucket}/${file.name}`);

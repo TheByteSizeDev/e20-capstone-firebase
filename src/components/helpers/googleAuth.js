@@ -5,15 +5,8 @@ import {
   signOut,
 } from "firebase/auth";
 
-// NOTES!
-// googleAuth.signIn() --- 0 params
-// googleAuth.signOut() --- 0 params
-
 // SignIn brings up the google sign in pop up AND works
 // for both signing in AND registering a user
-
-// SignOut just signs out. This will work for both google
-// and email/password sign out.
 
 export const googleAuth = {
   // Works to sign in AND register a user
@@ -29,7 +22,9 @@ export const googleAuth = {
             uid: userCredential.user.uid,
             type: "google",
           };
+          // Add user object to localStorage
           localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+          // Navigate us back home
           navigate("/");
           console.log("you did it");
         })
@@ -46,7 +41,9 @@ export const googleAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
+        // Remove user from localStorage
         localStorage.removeItem("capstone_user");
+        // Navigate us back home
         navigate("/");
         console.log("Sign Out Success!");
       })

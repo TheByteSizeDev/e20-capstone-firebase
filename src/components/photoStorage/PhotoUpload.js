@@ -1,6 +1,8 @@
 import { photoStorage } from "../helpers/photoStorage";
 import { useState } from "react";
 
+// Photo Upload component
+
 export const PhotoUpload = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);

@@ -6,7 +6,6 @@ import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
 
 export const Login = () => {
-  // const [email, set] = useState("");
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -19,11 +18,13 @@ export const Login = () => {
     setLogin(copy);
   };
 
+  // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
     e.preventDefault();
     emailAuth.signIn(login, navigate);
   };
 
+  // Login with Google
   const onSubmitLoginGoogle = async () => {
     googleAuth.signInRegister(navigate);
   };
