@@ -16,11 +16,11 @@ export const PhotoUpload = () => {
 
   // Handles calling the upload image function
   const handleUpload = () => {
-    photoStorage.upload("images", image).then((downloadUrl) => {
-      // Returns image URL, you will want to add this
+    photoStorage.upload("images", image).then((photoObject) => {
+      // Returns image object, you will want to add these properties
       // to an object in your database
       // EX: a user if it's a profile picture
-      setImageUrl(downloadUrl);
+      setImageUrl(photoObject.downloadURL);
     });
   };
 
