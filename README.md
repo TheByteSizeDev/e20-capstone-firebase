@@ -138,7 +138,14 @@ Initialize Firebase Storage in your firebase account.
 - params:
   - bucket ---> name of folder in your firebase storage where your photo is going. Default is "images".
   - file ---> file object to be uploaded
-- note: Make sure that you are saving the return URL to an object in your database (ex: a user if its a user profile)
+- note: Make sure that you are saving the return object properties to an object in your database (ex: a user if its a user profile). You especially need the path if you are going to use the delete method
+
+`photoStorage.delete()`
+
+- params:
+  - filepath ---> path to file you are trying to delete
+- Note: don't forget to delete your reference to this file in your database as well
+
 
 ## Available Scripts
 
