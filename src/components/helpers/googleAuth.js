@@ -29,7 +29,7 @@ export const googleAuth = {
             uid: userCredential.user.uid,
             type: "google",
           };
-          localStorage.setItem("project_user", JSON.stringify(userAuth));
+          localStorage.setItem("capstone_user", JSON.stringify(userAuth));
           navigate("/");
           console.log("you did it");
         })
@@ -46,7 +46,7 @@ export const googleAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        localStorage.removeItem("project_user");
+        localStorage.removeItem("capstone_user");
         navigate("/");
         console.log("Sign Out Success!");
       })

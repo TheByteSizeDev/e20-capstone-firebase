@@ -36,7 +36,7 @@ export const emailAuth = {
               uid: userCredential.user.uid,
               type: "email",
             };
-            localStorage.setItem("project_user", JSON.stringify(userAuth));
+            localStorage.setItem("capstone_user", JSON.stringify(userAuth));
             navigate("/");
           },
           function(error) {
@@ -64,7 +64,7 @@ export const emailAuth = {
             uid: userCredential.user.uid,
             type: "email",
           };
-          localStorage.setItem("project_user", JSON.stringify(userAuth));
+          localStorage.setItem("capstone_user", JSON.stringify(userAuth));
           navigate("/");
         })
         .catch((error) => {
@@ -79,7 +79,7 @@ export const emailAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        localStorage.removeItem("project_user");
+        localStorage.removeItem("capstone_user");
         navigate("/");
         console.log("Sign Out Success!");
       })
