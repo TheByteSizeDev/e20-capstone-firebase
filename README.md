@@ -32,7 +32,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Step 3: Run `npm i`
 
-* Run `nmp i` in your app's root directory
+* Run `npm i` in your app's root directory
 
 ## Step 4: Create a Firebase Account & Initialize Products
 
